@@ -34,7 +34,6 @@
 - Data types.
 - Dependency on data in the database.
 - Equivalence and boundary values (min, min+1, internal, max, max-1).
-- 
 - Query parameters: filter, sort, limit, offset, ...
 - HTTP Headers.
 
