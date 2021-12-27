@@ -29,19 +29,49 @@
 
 # Input Validation (Sending data to the API)
 
-## Positive:
+*Input properties:*
 - Data types.
 - Equivalence and boundary values (min, min+1, internal, max, max-1).
-- 
+- Database values: existing, deleted.
+- Query parameters: filter, sort, limit, offset, ...
+- TODO
 
-## Negative:
+## Negative inputs:
 - Additional fields in request bodies besides those you included in your API definition.
 - Outside the limitations to confirm that they result in a `400 Bad Request` error (min-1, max+1).
 - Database malicious queries or commands (cross-site scripting (XSS), SQL injections, and template injections).
+- Database values: non-existent, deleted.
+
+*Steps:*
+1. Execute API call: 
+  - with valid required parameters.
+- with valid required parameters AND valid optional parameters.
+2. The request should return 2XX HTTP status code.
+3. The response structure is according to data model:
+  - schema validation: field names and field types are as expected, including nested objects.
+  - field values are as expected.
+  - non-nullable fields are not null.
+4. For GET requests, verify there is NO STATE CHANGE in the system (idempotence).
+5. For POST, DELETE, PATCH, PUT operations ensure action has been performed correctly in the system.
+6. Verify that HTTP headers are as expected: Content-Type, Connection, Expires, ...
+7. Verify that information is NOT leaked via headers.
+8. Response is received in a timely manner (within reasonable expected time).
+
 
 # Rate limits
+
 > To prevent overloads and brute-force attacks.
 
 *Steps:*
 1. Check that all endpoints reject requests beyond rate limits with `500 Internal Server Error` (or other errors from the 500 range).
 2. Make sure they don’t include things like stack traces, internal network topology, or other private information.
+
+# Performance
+
+*Steps:*
+1. Check API response time, latency, TTFB/TTLB in various scenarios (in isolation and under load).
+
+# Load Tests (positive), Stress Tests (negative)
+
+*Steps:*
+1. Find capacity limit points and ensure the system performs as expected under load, and fails gracefully under stress.
