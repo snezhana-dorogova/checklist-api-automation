@@ -29,23 +29,32 @@
 
 # Input Validation (Sending data to the API)
 
-*Input properties:*
+*Input parameters properties:*
+- Required or optional.
 - Data types.
+- Dependency on data in the database.
 - Equivalence and boundary values (min, min+1, internal, max, max-1).
-- Database values: existing, deleted.
+- 
 - Query parameters: filter, sort, limit, offset, ...
-- TODO
+- HTTP Headers.
 
 ## Negative inputs:
+- Empty payloads.
+- Missing required parameter(s).
+- Only optional fields.
+- Invalid value for endpoint parameters.
+- Create a resource with a unique property value that already exists.
+- Delete a resource that doesn’t exist.
+- Update a resource with illegal data.
 - Additional fields in request bodies besides those you included in your API definition.
 - Outside the limitations to confirm that they result in a `400 Bad Request` error (min-1, max+1).
 - Database malicious queries or commands (cross-site scripting (XSS), SQL injections, and template injections).
-- Database values: non-existent, deleted.
+- Invalid values in HTTP headers.
 
 *Steps:*
-1. Execute API call: 
+1. Execute API calls: 
   - with valid required parameters.
-- with valid required parameters AND valid optional parameters.
+  - with valid required parameters and valid optional parameters.
 2. The request should return 2XX HTTP status code.
 3. The response structure is according to data model:
   - schema validation: field names and field types are as expected, including nested objects.
@@ -55,8 +64,6 @@
 5. For POST, DELETE, PATCH, PUT operations ensure action has been performed correctly in the system.
 6. Verify that HTTP headers are as expected: Content-Type, Connection, Expires, ...
 7. Verify that information is NOT leaked via headers.
-8. Response is received in a timely manner (within reasonable expected time).
-
 
 # Rate limits
 
