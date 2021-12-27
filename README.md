@@ -55,7 +55,7 @@
   - with valid required parameters.
   - with valid required parameters and valid optional parameters.
 2. The request should return 2XX HTTP status code.
-3. The response structure is according to data model:
+3. The response structure is according to the data model:
   - schema validation: field names and field types are as expected, including nested objects.
   - field values are as expected.
   - non-nullable fields are not null.
